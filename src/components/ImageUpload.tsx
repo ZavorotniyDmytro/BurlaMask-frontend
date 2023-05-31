@@ -19,16 +19,36 @@ const ImageUploader: React.FC<ImageUploaderProps> = () => {
     setImage(null);
   };
 
+  const handleUploadClick = () => {
+    const fileInput = document.getElementById("file-input");
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
   return (
     <div
       className="image-uploader"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      <div className="image-container">
+        {image && (
+          <img src={URL.createObjectURL(image)} alt="Загруженное изображение" />
+        )}
+        {isHovered && image && (
+          <button className="remove-button" onClick={handleRemoveImage}>
+            &times;
+          </button>
+        )}
+      </div>
+
       {!image && (
         <>
           <label htmlFor="file-input">
-            <button className="upload-button">Загрузить</button>
+            <button className="upload-button" onClick={handleUploadClick}>
+              Upload	
+            </button>
           </label>
           <input
             id="file-input"
@@ -38,17 +58,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = () => {
             style={{ display: "none" }}
           />
         </>
-      )}
-
-      {image && (
-        <div className="image-container">
-          <img src={URL.createObjectURL(image)} alt="Загруженное изображение" />
-          {isHovered && (
-            <button className="remove-button" onClick={handleRemoveImage}>
-              &times;
-            </button>
-          )}
-        </div>
       )}
     </div>
   );
