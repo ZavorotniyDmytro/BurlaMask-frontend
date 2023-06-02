@@ -1,0 +1,32 @@
+.image-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin-bottom: 20px;
+ }
+ 
+ .image-button {
+	background-color: #fca311;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+	font-weight: bold;
+ }
+ 
+ .image-preview {
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+	margin-bottom: 10px;
+ }
+ 
+ .swap-button {
+	background-color: #fca311;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+	font-weight: bold;
+ }

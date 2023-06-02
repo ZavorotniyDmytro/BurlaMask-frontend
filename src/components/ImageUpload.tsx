@@ -26,18 +26,70 @@ const ImageUploader: React.FC<ImageUploaderProps> = () => {
     }
   };
 
+  const imageUploaderStyles: React.CSSProperties = {
+    width: "250px",
+    height: "250px",
+    border: "1px solid #ccc",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  };
+
+	const imageStyles: React.CSSProperties = {
+		width: "100%",
+		height: "100%",
+		objectFit: "cover",
+	};
+
+  const removeButtonStyles: React.CSSProperties = {
+    position: "absolute",
+    top: "5px",
+    right: "5px",
+    background: "#fff",
+    border: "none",
+    color: "red",
+    fontSize: "20px",
+    padding: "0",
+    width: "24px",
+    height: "24px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
+  const uploadButtonStyles: React.CSSProperties = {
+    background: "#fff",
+    border: "1px dashed #ccc",
+    color: "#ccc",
+    fontSize: "14px",
+    padding: "10px 15px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+  };
+
   return (
     <div
       className="image-uploader"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={imageUploaderStyles}
     >
       <div className="image-container">
         {image && (
-          <img src={URL.createObjectURL(image)} alt="Загруженное изображение" />
+          <img
+            src={URL.createObjectURL(image)}
+            alt="Загруженное изображение"
+            style={imageStyles}
+          />
         )}
         {isHovered && image && (
-          <button className="remove-button" onClick={handleRemoveImage}>
+          <button
+            className="remove-button"
+            onClick={handleRemoveImage}
+            style={removeButtonStyles}
+          >
             &times;
           </button>
         )}
@@ -46,8 +98,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = () => {
       {!image && (
         <>
           <label htmlFor="file-input">
-            <button className="upload-button" onClick={handleUploadClick}>
-              Upload	
+            <button
+              className="upload-button"
+              onClick={handleUploadClick}
+              style={uploadButtonStyles}
+            >
+              Upload
             </button>
           </label>
           <input

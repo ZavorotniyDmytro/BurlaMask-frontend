@@ -1,13 +1,15 @@
 import React from 'react';
-import ImageUploader from './components/ImageUpload';
 import logo from './logo.png'
 import Header from './components/Header';
+import Body from './components/Body';
 const App: React.FC = () => {
   	return (
 		<div className="App">
-			<Header logo={logo} />		
+			<Header logo={logo} />
+			<Body/>
 		</div>
   	);
 };
+
 
 export default App;

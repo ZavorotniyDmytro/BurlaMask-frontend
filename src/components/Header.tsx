@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface HeaderProps {
-  logo: string;
+	logo: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ logo }) => {
@@ -12,23 +12,23 @@ const Header: React.FC<HeaderProps> = ({ logo }) => {
 		setDescription(event.target.value);
 	};
 
-	const handleButtonClick = () => {
-		const payload = { description };
+	const handleButtonClick = () => {		
+		const payload = { description: description };		
+		console.log(payload);
 		fetch('http://localhost:3001/images/description', {
-			method: 'GET',
+			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-type': 'application/json; charset=UTF-8', 
 			},
 			body: JSON.stringify(payload),
 		})
 		.then(response => response.json())
 		.then(data => {
-			console.log(data);
-			
+			console.log(data);			
+			setImages(data)			
 		})
 		.catch(error => {
-			console.log(error);
-			
+			console.log(error);			
 		});
 	};
 
@@ -56,37 +56,37 @@ const Header: React.FC<HeaderProps> = ({ logo }) => {
 
 
 const headerStyles: React.CSSProperties = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '10px',
-  background: '#f1f1f1',
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	padding: '10px',
+	background: '#f1f1f1',
 };
 
 const logoStyles: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
+	display: 'flex',
+	alignItems: 'center',
 };
 
 const logoImageStyles: React.CSSProperties = {
-  width: '40px',
-  height: '40px',
-  marginRight: '10px',
+	width: '40px',
+	height: '40px',
+	marginRight: '10px',
 };
 
 const logoTextStyles: React.CSSProperties = {
-  fontSize: '18px',
-  fontWeight: 'bold',
+	fontSize: '18px',
+	fontWeight: 'bold',
 };
 
 const searchStyles: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
+	display: 'flex',
+	alignItems: 'center',
 };
 
 const searchInputStyles: React.CSSProperties = {
-  padding: '5px',
-  marginRight: '10px',
+	padding: '5px',
+	marginRight: '10px',
 };
 
 const buttonStyles: React.CSSProperties = {
