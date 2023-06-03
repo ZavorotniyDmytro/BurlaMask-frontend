@@ -4,17 +4,22 @@ interface HeaderProps {
 	logo: string;
 }
 
+interface Image {
+	id: string;
+	image_url: string
+	description: string
+}
+
 const Header: React.FC<HeaderProps> = ({ logo }) => {
 	const [description, setDescription] = useState('');
-	const [images, setImages] = useState([])
+	const [images, setImages] = useState<Image[]>([])
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setDescription(event.target.value);
 	};
 
 	const handleButtonClick = () => {		
-		const payload = { description: description };		
-		console.log(payload);
+		const payload = { description: description };
 		fetch('http://localhost:3001/images/description', {
 			method: 'POST',
 			headers: {
@@ -25,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ logo }) => {
 		.then(response => response.json())
 		.then(data => {
 			console.log(data);			
-			setImages(data)			
+			setImages(data)
 		})
 		.catch(error => {
 			console.log(error);			
@@ -47,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ logo }) => {
           onChange={handleInputChange}
         />
         <button style={buttonStyles} onClick={handleButtonClick}>
-          Отправить
+          Search
         </button>
       </div>
     </header>

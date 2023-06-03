@@ -4,7 +4,7 @@ import copy from 'clipboard-copy';
 
 interface ImageData {
 	id: string;
-	url: string;
+	image_url: string;
 	description: string;
  }
  
@@ -24,9 +24,11 @@ interface ImageData {
 const MyComponent: React.FC = () => {
 	const [image1, setImage1] = useState<File | null>(null);
 	const [image2, setImage2] = useState<File | null>(null);
-	const [swappedImages, setSwappedImages] = useState<ImageData[]>([]);
+	const [swappedImages, setSwappedImages] = useState<Blob[]>([]);
 	const [description1, setDescription1] = useState('');
 	const [description2, setDescription2] = useState('');
+	const [images, setImages] = useState<File[]>([])
+	const [imagesData, setImagesData] = useState<ImageData[]>([])
  
 	const handleImage1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
 	  if (e.target.files && e.target.files.length > 0) {
@@ -56,25 +58,27 @@ const MyComponent: React.FC = () => {
 				 },
 			  }
 			);
- 
+			
+			setImages(response.data.images);
+			setImagesData(response.data.imagesData)
+			
+			
 			const reader1 = new FileReader();
 			const reader2 = new FileReader();
  
 			reader1.onload = () => {
 			  const url1 = reader1.result as string;
-			  const swappedImage1: ImageData = {
-				 id: response.data[0].id,
-				 url: url1,
-				 description: '', // Set an initial empty description
-			  };
+			  const swappedImage1: Blob = new Blob(
+				[new Uint8Array(response.data.images[0].buffer.data)],
+				{ type: response.data.images[0].mimetype }
+				)
  
 			  reader2.onload = () => {
 				 const url2 = reader2.result as string;
-				 const swappedImage2: ImageData = {
-					id: response.data[1].id,
-					url: url2,
-					description: '', // Set an initial empty description
-				 };
+				 const swappedImage2 = new Blob(
+					[new Uint8Array(response.data.images[1].buffer.data)],
+					{ type: response.data.images[1].mimetype }
+					)
  
 				 setSwappedImages([swappedImage1, swappedImage2]);
 			  };
@@ -92,7 +96,7 @@ const MyComponent: React.FC = () => {
 	const handleSaveClick1 = async () => {
 	  if (swappedImages.length > 0 && description1 !== '') {
 		 const formData = new FormData();	 
-		 formData.append('file', swappedImages[0].url);
+		 formData.append('id', imagesData[0].id);
 		 formData.append('description', description1);
  
 		 try {
@@ -117,7 +121,7 @@ const MyComponent: React.FC = () => {
 	const handleSaveClick2 = async () => {
 		if (swappedImages.length > 0 && description2 !== '') {
 		  const formData = new FormData();		  
-		  formData.append('file', swappedImages[1].url);
+		  formData.append('id', imagesData[1].id);
 		  formData.append('description', description2);
   
 		  try {
@@ -223,7 +227,7 @@ const MyComponent: React.FC = () => {
 					<div style={{display: 'flex', justifyContent: 'space-between'}}>
 						<div>
 							<div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
-								<img style={imagePreviewStyle} src={swappedImages[0].url} alt="Swapped Image 1" />
+								<img style={imagePreviewStyle} src={imagesData[0].image_url} alt="Swapped Image 1" />
 								<input
 									type="text"
 									value={description1}
@@ -237,7 +241,7 @@ const MyComponent: React.FC = () => {
 						</div>
 						<div>
 							<div style={{display: 'flex', flexDirection: 'column'}}>
-								<img style={imagePreviewStyle} src={swappedImages[1].url} alt="Swapped Image 2" />
+								<img style={imagePreviewStyle} src={imagesData[1].image_url} alt="Swapped Image 2" />
 								<input
 									type="text"
 									value={description2}
